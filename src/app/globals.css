@@ -535,6 +535,36 @@
   animation: particle-orbit-2 22s ease-in-out infinite;
 }
 
+/* Glassy custom scrollbar for the main page only */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) rgba(10, 11, 15, 0.6);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 11, 15, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255, 255, 255, 0.25);
+}
+
 /* Completely Hide Scrollbar for Modal while retaining smooth scroll */
 .custom-glass-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
