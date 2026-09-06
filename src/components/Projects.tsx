@@ -74,8 +74,7 @@ export default function Projects() {
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {project.freelance && (
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/[0.18] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] border border-white/[0.25] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 z-10">
-                    <span className={`material-symbols-outlined text-[13px] ${project.lightImage ? 'text-white' : 'text-black'}`}>verified</span>
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/[0.18] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] border border-white/[0.25] text-[10px] font-bold uppercase tracking-wider flex items-center z-10">
                     <span className={project.lightImage ? 'text-white' : 'text-black'}>
                       Freelance
                     </span>
