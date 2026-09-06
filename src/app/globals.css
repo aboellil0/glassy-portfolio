@@ -20,6 +20,13 @@
   }
 }
 
+/* Custom Pointer Rule for Desktop Devices */
+@media (pointer: fine) {
+  body, a, button, input, textarea, select, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
 /* Material Symbols Outlined fix */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';

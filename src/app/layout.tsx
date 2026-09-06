@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: 'Backend developer specializing in .NET Core and Node.js - building scalable microservices, RESTful APIs, and real-time architectures.',
 }
 
+import CustomCursor from '@/components/CustomCursor'
+
 export default function RootLayout({
   children,
 }: {
@@ -26,6 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#090a0e] font-sans antialiased text-on-surface relative min-h-screen selection:bg-white/20 selection:text-white overflow-x-hidden">
+        <CustomCursor />
         {children}
       </body>
     </html>
