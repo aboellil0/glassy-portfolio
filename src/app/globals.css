@@ -535,4 +535,17 @@
   animation: particle-orbit-2 22s ease-in-out infinite;
 }
 
+/* Completely Hide Scrollbar for Modal while retaining smooth scroll */
+.custom-glass-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.custom-glass-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+  width: 0;
+  height: 0;
+}
+
+
 

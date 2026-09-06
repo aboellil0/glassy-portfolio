@@ -1,12 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { projects, projectFilters, Project } from '@/data/projects'
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedProject])
 
   const filteredProjects = activeFilter === 'all'
     ? projects
@@ -137,7 +148,7 @@ export default function Projects() {
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-[32px] bg-[#0d0e12]/90 backdrop-blur-[42px] saturate-[190%] border border-white/[0.18] shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.35),inset_0_-1.5px_1.5px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.12),0_24px_60px_-10px_rgba(0,0,0,0.85)]"
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto custom-glass-scrollbar rounded-[32px] bg-[#0d0e12]/90 backdrop-blur-[42px] saturate-[190%] border border-white/[0.18] shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.35),inset_0_-1.5px_1.5px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.12),0_24px_60px_-10px_rgba(0,0,0,0.85)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Specular Sheen line */}
