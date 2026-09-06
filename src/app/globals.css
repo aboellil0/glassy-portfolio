@@ -555,6 +555,59 @@ body.modal-open header {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* 60FPS Hardware-Accelerated macOS App Open/Close Animations */
+@keyframes mac-app-open {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+  }
+}
+
+@keyframes mac-app-close {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+}
+
+@keyframes mac-backdrop-open {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mac-backdrop-close {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.animate-modal-open {
+  animation: mac-app-open 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-modal-close {
+  animation: mac-app-close 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-backdrop-open {
+  animation: mac-backdrop-open 0.25s ease-out forwards;
+}
+
+.animate-backdrop-close {
+  animation: mac-backdrop-close 0.2s ease-in forwards;
+}
+
+
+
 
 
 

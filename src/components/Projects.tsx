@@ -8,11 +8,21 @@ import { projects, projectFilters, Project } from '@/data/projects'
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [isClosing, setIsClosing] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const handleClose = () => {
+    if (isClosing) return
+    setIsClosing(true)
+    setTimeout(() => {
+      setSelectedProject(null)
+      setIsClosing(false)
+    }, 200)
+  }
 
   useEffect(() => {
     if (selectedProject) {
@@ -153,11 +163,15 @@ export default function Projects() {
       {/* Project Modal - Rendered to document.body via Portal to cover the entire page */}
       {mounted && selectedProject && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-all duration-300"
-          onClick={() => setSelectedProject(null)}
+          className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm ${
+            isClosing ? 'animate-backdrop-close' : 'animate-backdrop-open'
+          }`}
+          onClick={handleClose}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto custom-glass-scrollbar rounded-[32px] bg-white/[0.07] backdrop-blur-[36px] border border-white/[0.22] shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.45),inset_0_-1px_2px_rgba(0,0,0,0.4),0_24px_60px_rgba(0,0,0,0.85)]"
+            className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto custom-glass-scrollbar rounded-[32px] bg-white/[0.07] backdrop-blur-[36px] border border-white/[0.22] shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.45),inset_0_-1px_2px_rgba(0,0,0,0.4),0_24px_60px_rgba(0,0,0,0.85)] ${
+              isClosing ? 'animate-modal-close' : 'animate-modal-open'
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Specular Sheen line */}
@@ -165,7 +179,7 @@ export default function Projects() {
 
             {/* Close Button */}
             <button
-              onClick={() => setSelectedProject(null)}
+              onClick={handleClose}
               className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/[0.1] hover:bg-white/[0.2] flex items-center justify-center text-white/70 hover:text-white transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]"
             >
               <span className="material-symbols-outlined text-[20px]">close</span>
