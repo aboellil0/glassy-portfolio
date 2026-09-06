@@ -75,7 +75,7 @@ export default function Projects() {
                 />
                 {project.freelance && (
                   <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/[0.18] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] border border-white/[0.25] text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 z-10">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className={`material-symbols-outlined text-[13px] ${project.lightImage ? 'text-white' : 'text-black'}`}>verified</span>
                     <span className={project.lightImage ? 'text-white' : 'text-black'}>
                       Freelance
                     </span>
@@ -115,7 +115,7 @@ export default function Projects() {
                 <div className="flex items-center justify-between mt-5 pt-3.5 border-t border-white/[0.08]">
                   <div className="flex items-center gap-2">
                     {project.liveUrl && (
-                      <span className="material-symbols-outlined text-[15px] text-emerald-400">check_circle</span>
+                      <span className="material-symbols-outlined text-[15px] text-white">check_circle</span>
                     )}
                     <span className="text-[10px] font-medium text-white/50 uppercase tracking-wider">
                       {project.liveUrl ? 'Live System' : 'Repository'}
@@ -186,7 +186,7 @@ export default function Projects() {
                 <ul className="space-y-2">
                   {selectedProject.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3 text-sm text-secondary/80">
-                      <span className="material-symbols-outlined text-[16px] text-emerald-400 mt-0.5">check</span>
+                      <span className="material-symbols-outlined text-[16px] text-white mt-0.5">check</span>
                       {feature}
                     </li>
                   ))}
