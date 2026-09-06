@@ -11,11 +11,14 @@ export default function Projects() {
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden'
+      document.body.classList.add('modal-open')
     } else {
       document.body.style.overflow = 'unset'
+      document.body.classList.remove('modal-open')
     }
     return () => {
       document.body.style.overflow = 'unset'
+      document.body.classList.remove('modal-open')
     }
   }, [selectedProject])
 
@@ -144,7 +147,7 @@ export default function Projects() {
       {/* Project Modal */}
       {selectedProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-2xl"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl"
           onClick={() => setSelectedProject(null)}
         >
           <div

@@ -547,5 +547,14 @@
   height: 0;
 }
 
+/* Hide fixed top navbar header when project modal is opened */
+body.modal-open header {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(-100%) !important;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
 
 
