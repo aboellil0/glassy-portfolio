@@ -8,6 +8,7 @@ export interface Project {
   images: string[];
   liveUrl?: string;
   repoUrl?: string;
+  lightImage?: boolean;
 }
 
 export const projects: Project[] = [
@@ -26,6 +27,7 @@ export const projects: Project[] = [
     image: "/images/projects/helaq/main.png",
     images: ["/images/projects/helaq/main.png"],
     liveUrl: "https://helaq.org",
+    lightImage: false,
   },
   {
     title: "CubeCharm — Real Estate Social Marketplace",
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     image: "/images/projects/CubeCharm microservices/main.png",
     images: ["/images/projects/CubeCharm microservices/main.png"],
     liveUrl: "https://cubecharm.com",
+    lightImage: false,
   },
   {
     title: "Al Rouba Group — Multi-Division Corporate Website",
@@ -58,6 +61,7 @@ export const projects: Project[] = [
     image: "/images/projects/alrouba/image.png",
     images: ["/images/projects/alrouba/image.png"],
     liveUrl: "https://www.alrouba.com",
+    lightImage: true,
   },
   {
     title: "Quran Memorization Platform — RESTful API",
