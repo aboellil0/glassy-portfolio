@@ -147,15 +147,15 @@ export default function Projects() {
       {/* Project Modal */}
       {selectedProject && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-2xl"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-all duration-300"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto custom-glass-scrollbar rounded-[32px] bg-[#0d0e12]/90 backdrop-blur-[42px] saturate-[190%] border border-white/[0.18] shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.35),inset_0_-1.5px_1.5px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.12),0_24px_60px_-10px_rgba(0,0,0,0.85)]"
+            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto custom-glass-scrollbar rounded-[32px] bg-white/[0.07] backdrop-blur-[36px] border border-white/[0.22] shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.45),inset_0_-1px_2px_rgba(0,0,0,0.4),0_24px_60px_rgba(0,0,0,0.85)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Specular Sheen line */}
-            <div className="pointer-events-none absolute -top-px left-1/2 -translate-x-1/2 w-3/4 h-[1.5px] bg-gradient-to-r from-transparent via-white/70 to-transparent blur-[0.5px] z-20" />
+            <div className="pointer-events-none absolute -top-px left-1/2 -translate-x-1/2 w-3/4 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent blur-[0.5px] z-20" />
 
             {/* Close Button */}
             <button
