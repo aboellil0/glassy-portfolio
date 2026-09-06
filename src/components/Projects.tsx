@@ -1,12 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { projects, projectFilters, Project } from '@/data/projects'
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (selectedProject) {
@@ -144,8 +150,8 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Project Modal */}
-      {selectedProject && (
+      {/* Project Modal - Rendered to document.body via Portal to cover the entire page */}
+      {mounted && selectedProject && createPortal(
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-all duration-300"
           onClick={() => setSelectedProject(null)}
@@ -248,7 +254,8 @@ export default function Projects() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   )
