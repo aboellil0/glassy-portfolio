@@ -1,9 +1,47 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { heroContent } from '@/data/content'
 
 export default function Hero() {
+  const [activeSection, setActiveSection] = useState('')
+
+  useEffect(() => {
+    const sections = ['projects', 'skills', 'experience', 'contact']
+    
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 250
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId)
+        if (element) {
+          const top = element.offsetTop
+          const height = element.offsetHeight
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId)
+            return
+          }
+        }
+      }
+
+      if (window.scrollY < 300) {
+        setActiveSection('')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const navItems = [
+    { id: 'projects', label: 'Projects' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'contact', label: 'Contact' },
+  ]
+
   return (
     <section id="hero" className="relative w-full min-h-screen">
       {/* BACKGROUND ATMOSPHERE */}
@@ -33,10 +71,20 @@ export default function Hero() {
             </div>
           </a>
           <nav className="hidden md:flex items-center gap-1">
-            <a className="px-3 py-1.5 rounded-full text-xs font-medium text-white/90 bg-white/[0.1] shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.4)]" href="#projects">Projects</a>
-            <a className="px-3 py-1.5 rounded-full text-xs font-medium text-white/60 hover:text-white hover:bg-white/[0.05] transition-all" href="#skills">Skills</a>
-            <a className="px-3 py-1.5 rounded-full text-xs font-medium text-white/60 hover:text-white hover:bg-white/[0.05] transition-all" href="#experience">Experience</a>
-            <a className="px-3 py-1.5 rounded-full text-xs font-medium text-white/60 hover:text-white hover:bg-white/[0.05] transition-all" href="#contact">Contact</a>
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => setActiveSection(item.id)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  activeSection === item.id
+                    ? 'bg-white/[0.16] text-white shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.4),0_2px_10px_rgba(0,0,0,0.3)] font-semibold'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.08] hover:shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.2)]'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
           <div className="flex items-center gap-2.5">
             <a
