@@ -52,13 +52,51 @@ export default function Hero() {
 
       {/* HERO CONTENT */}
       <div className="relative z-10 w-full min-h-screen flex flex-col">
-        {/* FULL WIDTH HERO IMAGE - attached to bottom */}
-        <div className="absolute inset-x-0 bottom-0 z-10 h-full">
+        {/* FULL WIDTH HERO IMAGE WITH ANIMATED CENTERED EFFECTS */}
+        <div className="absolute inset-x-0 bottom-0 z-10 h-full overflow-hidden pointer-events-none">
+          {/* Outer Ambient Navy Radial Gradient Glow */}
+          <div className="hero-navy-glow z-0" />
+
+          {/* Inner Vibrant Navy Core Glow */}
+          <div className="hero-navy-glow-core z-0" />
+
+          {/* ANIMATED CONCENTRIC RIPPLE WAVES CENTERED ON YOU */}
+          <div className="absolute top-[42%] left-1/2 z-0 pointer-events-none w-[600px] h-[600px]">
+            <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full border border-blue-500/25 animate-ripple-1" />
+            <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full border border-indigo-500/20 animate-ripple-2" />
+            <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full border border-sky-400/15 animate-ripple-3" />
+          </div>
+
+          {/* ANIMATED ROTATING ORBITAL NAVY RINGS CENTERED ON PHOTO */}
+          <div className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[550px] h-[550px] sm:w-[700px] sm:h-[700px] pointer-events-none">
+            {/* Outer Slow Ring */}
+            <div className="absolute top-1/2 left-1/2 w-full h-full rounded-full border border-dashed border-blue-400/20 animate-spin-orbital">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-blue-400 shadow-[0_0_15px_#60a5fa]" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-indigo-400 shadow-[0_0_12px_#818cf8]" />
+            </div>
+
+            {/* Inner Reverse Ring */}
+            <div className="absolute top-1/2 left-1/2 w-[72%] h-[72%] rounded-full border border-indigo-400/25 border-t-blue-400/60 animate-spin-orbital-reverse">
+              <div className="absolute top-1/2 right-0 translate-x-1/2 w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_16px_#38bdf8]" />
+            </div>
+
+            {/* Floating Orbiting Navy Energy Particles */}
+            <div className="absolute top-1/2 left-1/2 animate-orbit-particle-1">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 shadow-[0_0_20px_#3b82f6]" />
+            </div>
+            <div className="absolute top-1/2 left-1/2 animate-orbit-particle-2">
+              <div className="w-3 h-3 rounded-full bg-sky-300 shadow-[0_0_15px_#7dd3fc]" />
+            </div>
+          </div>
+
+
+
+          {/* Hero Portrait PNG */}
           <Image
             src="/images/hero.png"
             alt="Hero Portrait"
             fill
-            className="object-cover object-bottom"
+            className="object-cover object-bottom relative z-10 pointer-events-auto"
             priority
           />
         </div>
