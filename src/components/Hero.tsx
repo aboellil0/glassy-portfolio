@@ -1,16 +1,27 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { heroContent } from '@/data/content'
 
 export default function Hero() {
   const [activeSection, setActiveSection] = useState('')
+  const navRef = useRef<HTMLElement>(null)
+  const scrollLocked = useRef(false)
+  const scrollLockTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number; opacity: number }>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  })
 
   useEffect(() => {
     const sections = ['projects', 'skills', 'contact']
-    
+
     const handleScroll = () => {
+      // Don't override the pill while the page is still animating to the clicked section
+      if (scrollLocked.current) return
+
       const scrollPosition = window.scrollY + 250
 
       for (const sectionId of sections) {
@@ -34,6 +45,29 @@ export default function Hero() {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Move the sliding pill to the active nav item
+  useEffect(() => {
+    if (!navRef.current) return
+
+    if (!activeSection) {
+      setPillStyle((prev) => ({ ...prev, opacity: 0 }))
+      return
+    }
+
+    const navEl = navRef.current
+    const activeLink = navEl.querySelector<HTMLAnchorElement>(`[data-nav-id="${activeSection}"]`)
+    if (!activeLink) return
+
+    const navRect = navEl.getBoundingClientRect()
+    const linkRect = activeLink.getBoundingClientRect()
+
+    setPillStyle({
+      left: linkRect.left - navRect.left,
+      width: linkRect.width,
+      opacity: 1,
+    })
+  }, [activeSection])
 
   const navItems = [
     { id: 'projects', label: 'Projects' },
@@ -68,22 +102,59 @@ export default function Hero() {
               <span className="text-[9px] font-medium uppercase tracking-widest text-white/50">Aboellil</span>
             </div>
           </a>
-          <nav className="hidden md:flex items-center gap-1">
+
+          {/* Nav with sliding pill indicator */}
+          <nav ref={navRef} className="hidden md:flex items-center gap-1 relative">
+            {/* Sliding glass pill — absolutely positioned inside the nav */}
+            <span
+              aria-hidden="true"
+              className="absolute top-0 h-full rounded-full pointer-events-none"
+              style={{
+                left: pillStyle.left,
+                width: pillStyle.width,
+                opacity: pillStyle.opacity,
+                background:
+                  'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)',
+                boxShadow:
+                  'inset 0 1px 0.5px rgba(255,255,255,0.45), 0 2px 12px rgba(0,0,0,0.35)',
+                border: '1px solid rgba(255,255,255,0.18)',
+                transition:
+                  'left 0.38s cubic-bezier(0.34,1.56,0.64,1), width 0.32s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease',
+              }}
+            />
+
             {navItems.map((item) => (
               <a
                 key={item.id}
+                data-nav-id={item.id}
                 href={`#${item.id}`}
-                onClick={() => setActiveSection(item.id)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                onClick={() => {
+                  // Lock scroll-handler override for the duration of the smooth-scroll animation
+                  scrollLocked.current = true
+                  if (scrollLockTimer.current) clearTimeout(scrollLockTimer.current)
+                  scrollLockTimer.current = setTimeout(() => {
+                    scrollLocked.current = false
+                  }, 900)
+                  setActiveSection(item.id)
+                }}
+                className={`relative z-10 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
                   activeSection === item.id
-                    ? 'bg-white/[0.16] text-white shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.4),0_2px_10px_rgba(0,0,0,0.3)] font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.08] hover:shadow-[inset_0_1px_0.5px_rgba(255,255,255,0.2)]'
+                    ? 'text-white font-semibold scale-[1.04]'
+                    : 'text-white/55 hover:text-white hover:bg-white/[0.06]'
                 }`}
+                style={{
+                  textShadow:
+                    activeSection === item.id
+                      ? '0 0 14px rgba(255,255,255,0.5)'
+                      : 'none',
+                  transition: 'color 0.25s ease, transform 0.25s ease, text-shadow 0.25s ease',
+                }}
               >
                 {item.label}
               </a>
             ))}
           </nav>
+
           <div className="flex items-center gap-2.5">
             <a
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white to-[#dce2f4] text-[#0d0f14] text-xs font-semibold shadow-[inset_0_1px_1px_#ffffff,0_4px_14px_rgba(0,0,0,0.35)] hover:scale-105 active:scale-95 transition-all"
