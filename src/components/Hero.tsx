@@ -15,6 +15,13 @@ export default function Hero() {
     opacity: 0,
   })
 
+  // ── Intro video state ──────────────────────────────────────────
+  const videoRef = useRef<HTMLVideoElement>(null)
+  // 'playing' | 'fading' | 'done'
+  const [introPhase, setIntroPhase] = useState<'playing' | 'fading' | 'done'>('playing')
+  // Controls whether the page elements animate in
+  const [pageVisible, setPageVisible] = useState(false)
+
   useEffect(() => {
     const sections = ['projects', 'skills', 'contact']
 
@@ -44,6 +51,35 @@ export default function Hero() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // ── Intro video logic ─────────────────────────────────────────
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // Keep scrollbar visible but lock scroll position at top
+    const lockScroll = () => window.scrollTo(0, 0)
+    window.addEventListener('scroll', lockScroll)
+
+    const handleEnded = () => {
+      // Start crossfade-out of overlay
+      setIntroPhase('fading')
+      // After the CSS transition completes, hide overlay & trigger page entrance
+      const t = setTimeout(() => {
+        setIntroPhase('done')
+        window.removeEventListener('scroll', lockScroll)
+        // Small delay so the page is rendered before animating in
+        requestAnimationFrame(() => setPageVisible(true))
+      }, 800)
+      return () => clearTimeout(t)
+    }
+
+    video.addEventListener('ended', handleEnded)
+    return () => {
+      video.removeEventListener('ended', handleEnded)
+      window.removeEventListener('scroll', lockScroll)
+    }
   }, [])
 
   // Move the sliding pill to the active nav item
@@ -76,6 +112,24 @@ export default function Hero() {
   ]
 
   return (
+    <>
+      {/* ── INTRO VIDEO OVERLAY ─────────────────────────────────── */}
+      {introPhase !== 'done' && (
+        <div
+          className="intro-video-overlay"
+          style={{ opacity: introPhase === 'fading' ? 0 : 1 }}
+        >
+          <video
+            ref={videoRef}
+            src="/images/0906.mp4"
+            autoPlay
+            muted
+            playsInline
+            className="intro-video"
+          />
+        </div>
+      )}
+
     <section id="hero" className="relative w-full min-h-screen">
       {/* BACKGROUND ATMOSPHERE */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -90,8 +144,16 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* FLOATING NAVBAR */}
-      <header className="fixed top-0 inset-x-0 z-50 flex justify-center items-center pt-5 sm:pt-7 px-4 pointer-events-none">
+      {/* FLOATING NAVBAR — slides down from top after intro */}
+      <header
+        className="fixed top-0 inset-x-0 z-50 flex justify-center items-center pt-5 sm:pt-7 px-4 pointer-events-none"
+        style={{
+          transform: pageVisible ? 'translateY(0)' : 'translateY(-130%)',
+          transition: pageVisible
+            ? 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s'
+            : 'none',
+        }}
+      >
         <div className="pointer-events-auto flex items-center justify-between gap-6 sm:gap-10 px-4 py-2 sm:py-2.5 rounded-full bg-white/[0.05] backdrop-blur-[36px] shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.35),0_12px_40px_rgba(0,0,0,0.6),0_0_20px_rgba(255,255,255,0.05)] border border-white/[0.12] transition-all hover:bg-white/[0.07]">
           <a className="flex items-center gap-2.5 group" href="#">
             <div className="w-8 h-8 rounded-full bg-gradient-to-b from-white/90 to-white/60 flex items-center justify-center shadow-[inset_0_1px_1px_#ffffff,0_4px_12px_rgba(0,0,0,0.4)]">
@@ -192,9 +254,9 @@ export default function Hero() {
           {/* 6. Glassy white-blue rim line at waist level */}
           <div className="hero-aurora-rim z-[5]" />
 
-          {/* Hero Portrait PNG */}
+          {/* Hero Portrait — same frame as the intro video end for seamless crossfade */}
           <Image
-            src="/images/hero.png"
+            src="/images/VideoCapture_20260906-183952.jpg"
             alt="Hero Portrait"
             fill
             className="object-cover object-bottom relative z-10 pointer-events-auto"
@@ -222,9 +284,18 @@ export default function Hero() {
           />
         </div>
 
-        {/* FLOATING GLASS CARD - Overlays Image at Bottom */}
+        {/* FLOATING GLASS CARD - Overlays Image at Bottom — slides up from bottom after intro */}
         <div className="relative z-20 flex-1 flex items-end justify-center pb-6 sm:pb-8 lg:pb-10 px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-5xl p-5 sm:p-7 md:p-8 rounded-[30px] sm:rounded-[36px] liquid-glass-card">
+          <div
+            className="w-full max-w-5xl p-5 sm:p-7 md:p-8 rounded-[30px] sm:rounded-[36px] liquid-glass-card"
+            style={{
+              transform: pageVisible ? 'translateY(0)' : 'translateY(120%)',
+              opacity: pageVisible ? 1 : 0,
+              transition: pageVisible
+                ? 'transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s, opacity 0.55s ease 0.15s'
+                : 'none',
+            }}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               {/* Column 1: Identity, Title, Bio */}
               <div className="lg:col-span-7 flex flex-col gap-3.5 text-left">
@@ -291,5 +362,6 @@ export default function Hero() {
         </div>
       </div>
     </section>
+    </>
   )
 }
