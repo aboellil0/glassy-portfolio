@@ -130,6 +130,26 @@ export default function Hero() {
             className="object-cover object-bottom relative z-10 pointer-events-auto"
             priority
           />
+
+          {/* Bottom fade — blends the photo into the next section */}
+          <div
+            className="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
+            style={{
+              height: '45%',
+              background:
+                'linear-gradient(to top, #090a0e 0%, rgba(9,10,14,0.85) 30%, rgba(9,10,14,0.45) 60%, transparent 100%)',
+            }}
+          />
+
+          {/* Secondary softer mid-fade for extra smoothness */}
+          <div
+            className="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
+            style={{
+              height: '25%',
+              background:
+                'linear-gradient(to top, #090a0e 0%, rgba(9,10,14,0.6) 50%, transparent 100%)',
+            }}
+          />
         </div>
 
         {/* FLOATING GLASS CARD - Overlays Image at Bottom */}
