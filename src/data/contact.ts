@@ -24,4 +24,10 @@ export const contactMethods: ContactMethod[] = [
     href: "https://linkedin.com/in/mohammedaboellil",
     icon: "work",
   },
+  {
+    label: "WhatsApp",
+    value: "+20 102 584 7029",
+    href: "https://wa.me/201025847029",
+    icon: "chat",
+  },
 ];
