@@ -643,9 +643,185 @@ body.modal-open header {
 .animate-backdrop-close {
   animation: mac-backdrop-close 0.2s ease-in forwards;
 }
+/* ============================================================
+   HERO AURORA HALO ANIMATION SYSTEM
+   A multi-layer, pure-CSS glassy aurora radiating from behind
+   the hero photo. Non-AI, simple, modern, premium.
+   ============================================================ */
 
+/* --- Keyframes --- */
 
+/* 1. Slow conic sweep — god-ray / aurora sweep rotating behind the figure */
+@keyframes hero-conic-sweep {
+  0%   { transform: translate(-50%, 10%) rotate(0deg)   scale(1);    opacity: 0.55; }
+  33%  { transform: translate(-50%, 0%)  rotate(120deg) scale(1.06); opacity: 0.7;  }
+  66%  { transform: translate(-50%, 5%)  rotate(240deg) scale(0.96); opacity: 0.6;  }
+  100% { transform: translate(-50%, 10%) rotate(360deg) scale(1);    opacity: 0.55; }
+}
 
+/* 2. Left indigo orb — drifts slowly */
+@keyframes hero-orb-left {
+  0%,  100% { transform: translate(-50%, 0px)  scale(1);    opacity: 0.65; }
+  40%        { transform: translate(-58%, -28px) scale(1.08); opacity: 0.8;  }
+  70%        { transform: translate(-44%, 12px)  scale(0.94); opacity: 0.55; }
+}
 
+/* 3. Right cyan orb — drifts in opposite phase */
+@keyframes hero-orb-right {
+  0%,  100% { transform: translate(-50%, 0px)  scale(1);    opacity: 0.5; }
+  35%        { transform: translate(-42%, -20px) scale(1.1);  opacity: 0.7; }
+  70%        { transform: translate(-56%, 14px)  scale(0.9);  opacity: 0.45;}
+}
 
+/* 4. Centre light beam — rises from feet, breathes */
+@keyframes hero-beam {
+  0%,  100% { transform: translateX(-50%) scaleX(1);    opacity: 0.45; }
+  50%        { transform: translateX(-50%) scaleX(1.18); opacity: 0.65; }
+}
+
+/* 5. Outer halo pulse — large ellipse that breathes */
+@keyframes hero-halo-pulse {
+  0%,  100% { transform: translate(-50%, 0) scale(1);    opacity: 0.38; }
+  50%        { transform: translate(-50%, -20px) scale(1.07); opacity: 0.52; }
+}
+
+/* --- Utility classes --- */
+
+/* Outer breathing halo */
+.hero-aurora-halo {
+  position: absolute;
+  bottom: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 1100px;
+  height: 95vh;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 80%,
+    rgba(29,  78, 216, 0.42)   0%,
+    rgba(49,  46, 129, 0.28)  30%,
+    rgba(15,  23,  42, 0.18)  60%,
+    transparent               100%
+  );
+  filter: blur(90px);
+  pointer-events: none;
+  animation: hero-halo-pulse 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Rotating conic sweep (god-ray aurora) */
+.hero-aurora-sweep {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform-origin: 50% 100%;
+  width: 140vw;
+  max-width: 1400px;
+  height: 110vh;
+  background: conic-gradient(
+    from 160deg at 50% 100%,
+    transparent               0deg,
+    rgba(59, 130, 246, 0.12)  18deg,
+    rgba(99,  102, 241, 0.18) 36deg,
+    transparent               55deg,
+    transparent               110deg,
+    rgba(147, 197, 253, 0.1)  128deg,
+    rgba(59,  130, 246, 0.15) 145deg,
+    transparent               165deg,
+    transparent               360deg
+  );
+  filter: blur(24px);
+  pointer-events: none;
+  animation: hero-conic-sweep 22s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Left indigo orb */
+.hero-aurora-orb-l {
+  position: absolute;
+  bottom: 10%;
+  left: 32%;
+  width: 55vw;
+  max-width: 600px;
+  height: 65vh;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 55% 60%,
+    rgba(99,  102, 241, 0.52)  0%,
+    rgba(29,   78, 216, 0.35) 40%,
+    transparent               80%
+  );
+  filter: blur(72px);
+  pointer-events: none;
+  animation: hero-orb-left 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Right cyan orb */
+.hero-aurora-orb-r {
+  position: absolute;
+  bottom: 8%;
+  left: 68%;
+  width: 50vw;
+  max-width: 540px;
+  height: 58vh;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 45% 60%,
+    rgba(56, 189, 248, 0.38)  0%,
+    rgba(14, 165, 233, 0.22) 45%,
+    transparent               80%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+  animation: hero-orb-right 18s ease-in-out infinite 3s;
+  will-change: transform, opacity;
+}
+
+/* Centre light beam rising from feet */
+.hero-aurora-beam {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28vw;
+  max-width: 320px;
+  height: 90vh;
+  background: linear-gradient(
+    to top,
+    rgba(147, 197, 253, 0.22)  0%,
+    rgba(99,  130, 246, 0.14) 35%,
+    rgba(59,   78, 200, 0.06) 70%,
+    transparent               100%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  animation: hero-beam 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Glassy white rim light — very subtle, sits just behind figure at waist level */
+.hero-aurora-rim {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44vw;
+  max-width: 480px;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    transparent                     0%,
+    rgba(255, 255, 255, 0.18)      20%,
+    rgba(147, 197, 253, 0.45)      50%,
+    rgba(255, 255, 255, 0.18)      80%,
+    transparent                    100%
+  );
+  filter: blur(3px);
+  pointer-events: none;
+  animation: hero-beam 8s ease-in-out infinite 1s;
+  will-change: opacity;
+}
 
