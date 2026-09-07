@@ -408,7 +408,6 @@
   );
   filter: blur(110px);
   pointer-events: none;
-  animation: ambient-navy-pulse 8s ease-in-out infinite;
 }
 
 .hero-navy-glow-core {
@@ -430,7 +429,6 @@
   );
   filter: blur(70px);
   pointer-events: none;
-  animation: ambient-navy-core-pulse 6s ease-in-out infinite alternate;
 }
 
 /* Hero Centered Moving Elements & Orbital Rings */
