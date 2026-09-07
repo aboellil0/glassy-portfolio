@@ -44,16 +44,6 @@ export default function Contact() {
             </a>
           ))}
         </div>
-
-        {/* Availability Note */}
-        <div className="flex justify-center">
-          <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.15]">
-            <span className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></span>
-            <span className="text-sm text-white/80">
-              Currently <span className="font-semibold text-white">available</span> for freelance projects
-            </span>
-          </div>
-        </div>
       </div>
     </section>
   )
