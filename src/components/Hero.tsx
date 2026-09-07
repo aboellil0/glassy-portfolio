@@ -8,7 +8,7 @@ export default function Hero() {
   const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
-    const sections = ['projects', 'skills', 'experience', 'contact']
+    const sections = ['projects', 'skills', 'contact']
     
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 250
@@ -38,7 +38,6 @@ export default function Hero() {
   const navItems = [
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
-    { id: 'experience', label: 'Experience' },
     { id: 'contact', label: 'Contact' },
   ]
 
