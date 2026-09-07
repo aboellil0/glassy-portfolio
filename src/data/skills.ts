@@ -1,48 +1,88 @@
 export interface Skill {
   name: string;
-  level: number;
 }
 
 export interface SkillCategory {
   title: string;
+  icon: string;
   skills: Skill[];
 }
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Backend & APIs",
+    title: "Programming Languages",
+    icon: "code",
     skills: [
-      { name: ".NET Core / C#", level: 90 },
-      { name: "Node.js / Express", level: 85 },
-      { name: "RESTful APIs", level: 90 },
-      { name: "SignalR & gRPC", level: 80 },
+      { name: "C#" },
+      { name: "JavaScript" },
+      { name: "TypeScript" },
+      { name: "Python" },
+      { name: "SQL" },
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    icon: "api",
+    skills: [
+      { name: ".NET Core" },
+      { name: "ASP.NET" },
+      { name: "Entity Framework" },
+      { name: "Node.js" },
+      { name: "Express.js" },
+      { name: "SignalR" },
+      { name: "gRPC" },
+      { name: "MediatR" },
     ],
   },
   {
     title: "Databases",
+    icon: "database",
     skills: [
-      { name: "PostgreSQL", level: 90 },
-      { name: "SQL Server", level: 85 },
-      { name: "Redis", level: 80 },
-      { name: "Elasticsearch", level: 75 },
+      { name: "PostgreSQL" },
+      { name: "SQL Server" },
+      { name: "MySQL" },
+      { name: "Redis" },
+      { name: "Elasticsearch" },
+      { name: "MongoDB" },
     ],
   },
   {
-    title: "DevOps & Infra",
+    title: "DevOps & Cloud",
+    icon: "cloud",
     skills: [
-      { name: "Docker", level: 90 },
-      { name: "Git & GitHub Actions", level: 90 },
-      { name: "RabbitMQ / MassTransit", level: 80 },
-      { name: "Nginx & VPS Deployment", level: 75 },
+      { name: "Docker" },
+      { name: "Git" },
+      { name: "GitHub Actions" },
+      { name: "CI/CD" },
+      { name: "Nginx" },
+      { name: "RabbitMQ" },
+      { name: "MassTransit" },
+      { name: "VPS Deployment" },
     ],
   },
   {
     title: "Architecture & Design",
+    icon: "architecture",
     skills: [
-      { name: "Clean Architecture", level: 90 },
-      { name: "Microservices", level: 85 },
-      { name: "SOLID & Design Patterns", level: 85 },
-      { name: "CQRS & MediatR", level: 80 },
+      { name: "Clean Architecture" },
+      { name: "Microservices" },
+      { name: "SOLID Principles" },
+      { name: "Design Patterns" },
+      { name: "CQRS" },
+      { name: "Domain-Driven Design" },
+      { name: "RESTful APIs" },
+    ],
+  },
+  {
+    title: "Tools",
+    icon: "build",
+    skills: [
+      { name: "Visual Studio" },
+      { name: "VS Code" },
+      { name: "Postman" },
+      { name: "Swagger / OpenAPI" },
+      { name: "SSMS" },
+      { name: "DBeaver" },
     ],
   },
 ];

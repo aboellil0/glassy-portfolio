@@ -825,3 +825,92 @@ body.modal-open header {
   will-change: opacity;
 }
 
+/* ══════════════════════════════════════════════
+   SKILLS SECTION — Liquid Glass Design System
+   Based on DESIGN.md Liquid Onyx spec
+   ══════════════════════════════════════════════ */
+
+/* ── Glass card substrate (Level 1 surface) ── */
+.skills-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(36px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 36px -4px rgba(0, 0, 0, 0.7),
+    0 0 32px 2px rgba(255, 255, 255, 0.06);
+}
+
+/* ── Active category button — milky frosted pill ── */
+.skills-btn-active {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(200, 206, 218, 0.68) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.35);
+  color: #14161D;
+}
+
+/* ── Idle category button — ghost translucent ── */
+.skills-btn-idle {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.skills-btn-idle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Skill pill chip ── */
+@keyframes skill-pill-in {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.skills-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  cursor: default;
+  user-select: none;
+  animation: skill-pill-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.skills-pill:hover {
+  background: rgba(255, 255, 255, 0.11);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+

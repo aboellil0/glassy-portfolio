@@ -1,62 +1,116 @@
 'use client'
 
+import { useState } from 'react'
 import { skillCategories } from '@/data/skills'
 
 export default function Skills() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const active = skillCategories[activeIndex]
+
   return (
     <section id="skills" className="relative z-10 w-full py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-
       <div className="max-w-7xl mx-auto relative z-10">
+
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.15] mb-4">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Expertise</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-              Technical Skills
-            </h2>
-            <p className="text-sm text-secondary/80 mt-2 max-w-md">
-              Backend development expertise with modern frameworks and architectural patterns.
-            </p>
+        <div className="mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.15] mb-4">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Expertise</span>
           </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Technical Skills
+          </h2>
+          <p className="text-sm text-white/40 mt-2 max-w-md">
+            A curated stack of technologies I use to build fast, scalable, and maintainable systems.
+          </p>
         </div>
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {skillCategories.map((category, index) => (
-            <div
-              key={index}
-              className="rounded-2xl bg-white/[0.06] backdrop-blur-[36px] border border-white/[0.1] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_16px_40px_rgba(0,0,0,0.4)]"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-b from-white/20 to-white/10 flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
-                  <span className="material-symbols-outlined text-[20px] text-white">
-                    {index === 0 ? 'api' : index === 1 ? 'storage' : index === 2 ? 'cloud' : 'architecture'}
-                  </span>
-                </div>
-                <h3 className="text-lg font-semibold text-white">{category.title}</h3>
-              </div>
+        {/* Main Layout: Sidebar + Card */}
+        <div className="flex flex-col lg:flex-row gap-5">
 
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex}>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-sm text-secondary/90">{skill.name}</span>
-                      <span className="text-xs text-white/50 font-medium">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-white/[0.08] overflow-hidden shadow-[inset_0_1px_1px_rgba(0,0,0,0.3)]">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-white/60 to-white/90 shadow-[0_0_12px_rgba(255,255,255,0.3)] transition-all duration-1000"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
+          {/* ── Left Sidebar: Category Buttons ── */}
+          <aside className="flex flex-row flex-wrap lg:flex-col gap-2 lg:w-60 shrink-0">
+            {skillCategories.map((cat, i) => {
+              const isActive = i === activeIndex
+              return (
+                <button
+                  key={i}
+                  id={`skills-cat-${i}`}
+                  onClick={() => setActiveIndex(i)}
+                  className={`
+                    group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium
+                    transition-all duration-300 text-left w-full
+                    ${isActive ? 'skills-btn-active' : 'skills-btn-idle'}
+                  `}
+                >
+                  {/* Icon container */}
+                  <span
+                    className={`
+                      w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300
+                      ${isActive
+                        ? 'bg-white/[0.15] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
+                        : 'bg-white/[0.05] group-hover:bg-white/[0.08]'
+                      }
+                    `}
+                  >
+                    <span
+                      className={`material-symbols-outlined text-[16px] transition-colors duration-300
+                        ${isActive ? 'text-[#14161D]' : 'text-white/50 group-hover:text-white/80'}
+                      `}
+                    >
+                      {cat.icon}
+                    </span>
+                  </span>
+
+                  <span className={`transition-colors duration-300 ${isActive ? 'text-[#14161D]' : 'text-white/55 group-hover:text-white/90'}`}>
+                    {cat.title}
+                  </span>
+
+                  {/* Active arrow indicator */}
+                  {isActive && (
+                    <span className="material-symbols-outlined text-[14px] text-[#14161D]/50 ml-auto shrink-0">
+                      chevron_right
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </aside>
+
+          {/* ── Right: Glassy Skill Card ── */}
+          <div
+            key={activeIndex}
+            className="flex-1 rounded-2xl p-8 skills-card"
+          >
+            {/* Card Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-11 h-11 rounded-2xl bg-white/[0.1] flex items-center justify-center border border-white/[0.18] shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                <span className="material-symbols-outlined text-[20px] text-white">
+                  {active.icon}
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white tracking-tight">{active.title}</h3>
+                <p className="text-xs text-white/35 mt-0.5">{active.skills.length} technologies</p>
               </div>
             </div>
-          ))}
+
+            {/* Divider */}
+            <div className="h-px w-full bg-white/[0.08] mb-7 rounded-full" />
+
+            {/* Skill Pills */}
+            <div className="flex flex-wrap gap-2.5">
+              {active.skills.map((skill, i) => (
+                <div
+                  key={i}
+                  className="skills-pill"
+                  style={{ animationDelay: `${i * 55}ms` }}
+                >
+                  {skill.name}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
