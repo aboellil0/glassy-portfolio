@@ -11,6 +11,7 @@ export default function AllProjectsPage() {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null)
     const [isClosing, setIsClosing] = useState(false)
     const [mounted, setMounted] = useState(false)
+    const [slideIndex, setSlideIndex] = useState(0)
 
     useEffect(() => {
         setMounted(true)
@@ -22,7 +23,13 @@ export default function AllProjectsPage() {
         setTimeout(() => {
             setSelectedProject(null)
             setIsClosing(false)
+            setSlideIndex(0)
         }, 200)
+    }
+
+    const handleSelectProject = (project: Project) => {
+        setSlideIndex(0)
+        setSelectedProject(project)
     }
 
     useEffect(() => {
@@ -190,7 +197,7 @@ export default function AllProjectsPage() {
                     {filteredProjects.map((project, index) => (
                         <div
                             key={index}
-                            onClick={() => setSelectedProject(project)}
+                            onClick={() => handleSelectProject(project)}
                             /*
                               Performance notes:
                               - `isolation-isolate` creates a new stacking context so backdrop-blur
@@ -292,15 +299,71 @@ export default function AllProjectsPage() {
                             <span className="material-symbols-outlined text-[20px]">close</span>
                         </button>
 
-                        {/* Project Image */}
-                        <div className="relative h-60 sm:h-72 mx-5 sm:mx-8 mt-5 sm:mt-8 rounded-[24px] overflow-hidden border border-white/[0.18] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.4),0_12px_32px_rgba(0,0,0,0.6)]">
-                            <Image
-                                src={selectedProject.image}
-                                alt={selectedProject.title}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
+                        {/* Image Slider */}
+                        {(() => {
+                            const imgs = selectedProject.images?.length ? selectedProject.images : [selectedProject.image]
+                            const total = imgs.length
+                            const prev = () => setSlideIndex(i => (i - 1 + total) % total)
+                            const next = () => setSlideIndex(i => (i + 1) % total)
+                            return (
+                                <div className="relative mx-5 sm:mx-8 mt-5 sm:mt-8">
+                                    {/* Slide track */}
+                                    <div className="relative h-60 sm:h-72 rounded-[24px] overflow-hidden border border-white/[0.18] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.4),0_12px_32px_rgba(0,0,0,0.6)]">
+                                        {imgs.map((src, i) => (
+                                            <div
+                                                key={i}
+                                                className="absolute inset-0 transition-opacity duration-500"
+                                                style={{ opacity: i === slideIndex ? 1 : 0, pointerEvents: i === slideIndex ? 'auto' : 'none' }}
+                                            >
+                                                <Image src={src} alt={`${selectedProject.title} screenshot ${i + 1}`} fill className="object-cover" />
+                                            </div>
+                                        ))}
+
+                                        {/* Prev / Next */}
+                                        {total > 1 && (
+                                            <>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); prev() }}
+                                                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/[0.18] backdrop-blur-2xl border border-white/[0.25] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] flex items-center justify-center transition-all duration-200 active:scale-95 hover:bg-white/[0.28]"
+                                                >
+                                                    <span className={`material-symbols-outlined text-[18px] ${selectedProject.lightImage ? 'text-white' : 'text-black'}`}>chevron_left</span>
+                                                </button>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); next() }}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/[0.18] backdrop-blur-2xl border border-white/[0.25] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] flex items-center justify-center transition-all duration-200 active:scale-95 hover:bg-white/[0.28]"
+                                                >
+                                                    <span className={`material-symbols-outlined text-[18px] ${selectedProject.lightImage ? 'text-white' : 'text-black'}`}>chevron_right</span>
+                                                </button>
+                                            </>
+                                        )}
+
+                                        {/* Counter badge */}
+                                        {total > 1 && (
+                                            <div className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-[10px] font-semibold">
+                                                {slideIndex + 1} / {total}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Dot indicators */}
+                                    {total > 1 && (
+                                        <div className="flex justify-center gap-1.5 mt-3">
+                                            {imgs.map((_, i) => (
+                                                <button
+                                                    key={i}
+                                                    onClick={(e) => { e.stopPropagation(); setSlideIndex(i) }}
+                                                    className={`rounded-full transition-all duration-300 ${
+                                                        i === slideIndex
+                                                            ? 'w-4 h-1.5 bg-white'
+                                                            : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/60'
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )
+                        })()}
 
                         {/* Content */}
                         <div className="p-6 sm:p-8 relative z-10">
