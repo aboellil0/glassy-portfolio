@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Link from 'next/link'
+import { projects, projectFilters, Project } from '@/data/projects'
+
 const isWhiteImage = (src?: string, lightImage?: boolean) => {
   if (lightImage) return true
   if (!src) return false
