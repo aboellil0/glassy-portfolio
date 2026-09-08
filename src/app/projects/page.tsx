@@ -130,12 +130,7 @@ export default function AllProjectsPage() {
       `}</style>
 
             {/* ── TOP NAV ─────────────────────────────────────────────────────────── */}
-            <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 sm:px-10 py-4">
-                <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.4)]">
-                    <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                    <span className="text-xs font-semibold uppercase tracking-widest text-white/60">All Projects</span>
-                </div>
-
+            <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-end px-6 sm:px-10 py-4">
                 <Link
                     href="/"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-white/[0.85] to-[#c8ceda]/[0.7] text-[#14161d] font-semibold text-sm shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.95),inset_0_-1.5px_1.5px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.35)] hover:from-white hover:to-[#d8dce8] active:scale-95 transition-all duration-200"
