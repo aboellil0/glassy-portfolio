@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import Link from 'next/link'
 import { projects, projectFilters, Project } from '@/data/projects'
 
 export default function Projects() {
@@ -63,6 +64,15 @@ export default function Projects() {
               Production-ready backend systems delivered for real clients across various industries.
             </p>
           </div>
+
+          {/* View All Projects Button */}
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-b from-white/[0.85] to-[#c8ceda]/[0.7] text-[#14161d] font-semibold text-sm shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.95),inset_0_-1.5px_1.5px_rgba(0,0,0,0.15),0_4px_16px_rgba(0,0,0,0.35)] hover:from-white hover:to-[#d8dce8] hover:shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1.5px_1.5px_rgba(0,0,0,0.18),0_6px_20px_rgba(0,0,0,0.45)] active:scale-95 transition-all duration-200 self-end md:self-auto"
+          >
+            <span>View All Projects</span>
+            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </Link>
         </div>
 
         {/* Filter Pills */}
