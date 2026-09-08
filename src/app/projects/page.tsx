@@ -6,6 +6,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { projects, projectFilters, Project } from '@/data/projects'
 
+const isWhiteImage = (src?: string, lightImage?: boolean) => {
+    if (src) {
+        const filename = src.split('/').pop()?.toLowerCase() || ''
+        if (filename.includes('-w') || filename.includes('-white')) return true
+        if (filename.includes('-black') || filename.includes('-b')) return false
+    }
+    return !!lightImage
+}
+
 export default function AllProjectsPage() {
     const [activeFilter, setActiveFilter] = useState('all')
     const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -221,7 +230,7 @@ export default function AllProjectsPage() {
                                 />
                                 {project.freelance && (
                                     <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/[0.18] backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),0_4px_12px_rgba(0,0,0,0.4)] border border-white/[0.22] text-[10px] font-bold uppercase tracking-wider flex items-center z-10">
-                                        <span className={project.lightImage ? 'text-black' : 'text-white'}>
+                                        <span className={isWhiteImage(project.image, project.lightImage) ? 'text-white' : 'text-black'}>
                                             Freelance
                                         </span>
                                     </div>
@@ -305,6 +314,8 @@ export default function AllProjectsPage() {
                             const total = imgs.length
                             const prev = () => setSlideIndex(i => (i - 1 + total) % total)
                             const next = () => setSlideIndex(i => (i + 1) % total)
+                            const currentImg = imgs[slideIndex]
+                            const currentIsWhite = isWhiteImage(currentImg, selectedProject.lightImage)
                             return (
                                 <div className="relative mx-5 sm:mx-8 mt-5 sm:mt-8">
                                     {/* Slide track */}
@@ -326,13 +337,13 @@ export default function AllProjectsPage() {
                                                     onClick={(e) => { e.stopPropagation(); prev() }}
                                                     className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/[0.18] backdrop-blur-2xl border border-white/[0.25] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] flex items-center justify-center transition-all duration-200 active:scale-95 hover:bg-white/[0.28]"
                                                 >
-                                                    <span className={`material-symbols-outlined text-[18px] ${selectedProject.lightImage ? 'text-black' : 'text-white'}`}>chevron_left</span>
+                                                    <span className={`material-symbols-outlined text-[18px] ${currentIsWhite ? 'text-white' : 'text-black'}`}>chevron_left</span>
                                                 </button>
                                                 <button
                                                     onClick={(e) => { e.stopPropagation(); next() }}
                                                     className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/[0.18] backdrop-blur-2xl border border-white/[0.25] shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] flex items-center justify-center transition-all duration-200 active:scale-95 hover:bg-white/[0.28]"
                                                 >
-                                                    <span className={`material-symbols-outlined text-[18px] ${selectedProject.lightImage ? 'text-black' : 'text-white'}`}>chevron_right</span>
+                                                    <span className={`material-symbols-outlined text-[18px] ${currentIsWhite ? 'text-white' : 'text-black'}`}>chevron_right</span>
                                                 </button>
                                             </>
                                         )}
