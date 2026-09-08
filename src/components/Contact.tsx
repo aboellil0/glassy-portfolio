@@ -5,17 +5,26 @@ import { useState, FormEvent } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`)
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
-    )
-    window.location.href = `mailto:mohamed.aboellil0@gmail.com?subject=${subject}&body=${body}`
-    setSent(true)
-    setTimeout(() => setSent(false), 4000)
+    setStatus('sending')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) throw new Error('Failed to send')
+
+      setStatus('sent')
+      setFormData({ name: '', email: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -222,25 +231,43 @@ export default function Contact() {
 
               {/* Footer */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
-                {sent ? (
+                {status === 'sent' && (
                   <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#4ade80' }}>
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>check_circle</span>
-                    Opening your mail client…
+                    Message sent successfully!
                   </span>
-                ) : <span />}
+                )}
+                {status === 'error' && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#f87171' }}>
+                    <span className="material-symbols-outlined" style={{ fontSize: 16 }}>error</span>
+                    Failed to send. Please try again.
+                  </span>
+                )}
+                {status === 'idle' || status === 'sending' ? <span /> : null}
+
                 <button
                   type="submit"
-                  className="flex items-center gap-2 active:scale-95 transition-all"
+                  disabled={status === 'sending'}
+                  className="flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     padding: '12px 24px', borderRadius: '9999px',
                     background: 'linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(200,206,218,0.65) 100%)',
                     boxShadow: 'inset 0 1.5px 1px rgba(255,255,255,0.95), inset 0 -1.5px 1.5px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.35)',
-                    border: 'none', cursor: 'pointer', color: '#14161d',
+                    border: 'none', cursor: status === 'sending' ? 'not-allowed' : 'pointer', color: '#14161d',
                     fontSize: 14, fontWeight: 600, letterSpacing: '-0.005em',
                   }}
                 >
-                  <span className="material-symbols-outlined" style={{ fontSize: 18 }}>send</span>
-                  Send Message
+                  {status === 'sending' ? (
+                    <>
+                      <span className="material-symbols-outlined animate-spin" style={{ fontSize: 18 }}>progress_activity</span>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined" style={{ fontSize: 18 }}>send</span>
+                      Send Message
+                    </>
+                  )}
                 </button>
               </div>
             </form>
