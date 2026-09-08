@@ -18,7 +18,7 @@ export default function TwitterImage({
   priority,
   sizes,
   style,
-  onLoadingComplete,
+  onLoad,
   ...props
 }: TwitterImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -40,9 +40,9 @@ export default function TwitterImage({
         priority={priority}
         sizes={sizes}
         style={style}
-        onLoadingComplete={(img) => {
+        onLoad={(e) => {
           setIsLoaded(true)
-          if (onLoadingComplete) onLoadingComplete(img)
+          if (onLoad) onLoad(e)
         }}
         className={`transition-all duration-700 ease-out ${
           isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.03]'

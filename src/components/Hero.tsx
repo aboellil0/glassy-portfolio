@@ -48,6 +48,9 @@ export default function Hero() {
 
   const handleSkipVideo = () => {
     if (introPhase !== 'playing') return
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
     sessionStorage.setItem('intro_played', '1')
     setIntroPhase('fading')
     setTimeout(() => {
@@ -55,6 +58,18 @@ export default function Hero() {
       setPageVisible(true)
     }, 400)
   }
+
+  // ── Lock scroll position ONLY while intro video is active ─────────
+  useEffect(() => {
+    if (introPhase === 'done') return
+
+    const lockScroll = () => window.scrollTo(0, 0)
+    window.addEventListener('scroll', lockScroll)
+
+    return () => {
+      window.removeEventListener('scroll', lockScroll)
+    }
+  }, [introPhase])
 
   useEffect(() => {
     const sections = ['projects', 'skills', 'contact']
@@ -100,10 +115,6 @@ export default function Hero() {
     const video = videoRef.current
     if (!video) return
 
-    // Keep scrollbar visible but lock scroll position at top
-    const lockScroll = () => window.scrollTo(0, 0)
-    window.addEventListener('scroll', lockScroll)
-
     const handleEnded = () => {
       // Remember that the intro has been played for this session
       sessionStorage.setItem('intro_played', '1')
@@ -112,7 +123,6 @@ export default function Hero() {
       // After the CSS transition completes, hide overlay & trigger page entrance
       const t = setTimeout(() => {
         setIntroPhase('done')
-        window.removeEventListener('scroll', lockScroll)
         // Small delay so the page is rendered before animating in
         requestAnimationFrame(() => setPageVisible(true))
       }, 800)
@@ -122,7 +132,6 @@ export default function Hero() {
     video.addEventListener('ended', handleEnded)
     return () => {
       video.removeEventListener('ended', handleEnded)
-      window.removeEventListener('scroll', lockScroll)
     }
   }, [])
 
