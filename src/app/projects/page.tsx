@@ -7,12 +7,10 @@ import Link from 'next/link'
 import { projects, projectFilters, Project } from '@/data/projects'
 
 const isWhiteImage = (src?: string, lightImage?: boolean) => {
-    if (src) {
-        const filename = src.split('/').pop()?.toLowerCase() || ''
-        if (filename.includes('-w') || filename.includes('-white')) return true
-        if (filename.includes('-black') || filename.includes('-b')) return false
-    }
-    return !!lightImage
+    if (lightImage) return true
+    if (!src) return false
+    const filename = src.split('/').pop()?.toLowerCase() || ''
+    return filename.includes('-w') || filename.includes('-white')
 }
 
 export default function AllProjectsPage() {
