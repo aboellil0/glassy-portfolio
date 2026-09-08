@@ -301,7 +301,7 @@ export default function Hero() {
               <span className="material-symbols-outlined text-[14px]">arrow_outward</span>
             </a>
 
-            {/* Mobile Navigation Toggle Button */}
+            {/* Mobile 3-Lines Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden w-8 h-8 rounded-full bg-white/[0.1] hover:bg-white/[0.18] border border-white/[0.18] flex items-center justify-center text-white/80 transition-all active:scale-95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)]"
@@ -313,31 +313,75 @@ export default function Hero() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Floating Dropdown Navigation Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden pointer-events-auto w-full max-w-sm mt-3 p-3 rounded-[24px] bg-[#0c0e14]/90 backdrop-blur-3xl border border-white/[0.18] shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.35),0_20px_50px_rgba(0,0,0,0.85)] flex flex-col gap-1.5 animate-modal-open">
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={() => {
-                  setActiveSection(item.id)
-                  setMobileMenuOpen(false)
-                }}
-                className={`flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-semibold uppercase tracking-wider transition-all ${
-                  activeSection === item.id
-                    ? 'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
-                    : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
-                }`}
-              >
-                <span>{item.label}</span>
-                <span className="material-symbols-outlined text-[16px] text-white/40">arrow_forward</span>
-              </a>
-            ))}
-          </div>
-        )}
       </header>
+
+      {/* ── MOBILE BOTTOM NAVIGATION SHEET (Appears at the bottom when clicking 3-lines button) ── */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop Overlay */}
+          <div
+            className="md:hidden fixed inset-0 z-[998] bg-black/60 backdrop-blur-sm animate-backdrop-open pointer-events-auto"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* Bottom Navigation Sheet */}
+          <div className="md:hidden fixed bottom-4 inset-x-4 z-[999] p-5 rounded-[32px] bg-[#0c0e14]/95 backdrop-blur-[36px] border border-white/[0.2] shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.4),0_24px_60px_rgba(0,0,0,0.9)] flex flex-col gap-3 animate-modal-open pointer-events-auto">
+            {/* Top Specular Light Line */}
+            <div className="pointer-events-none absolute -top-px left-1/2 -translate-x-1/2 w-3/4 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent blur-[0.5px] z-20" />
+
+            {/* Sheet Header */}
+            <div className="flex items-center justify-between pb-2 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-[11px] font-bold uppercase tracking-widest text-white/60">Navigation</span>
+              </div>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all"
+              >
+                <span className="material-symbols-outlined text-[16px]">close</span>
+              </button>
+            </div>
+
+            {/* Navigation Section Buttons */}
+            <div className="grid grid-cols-1 gap-2 pt-1">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={() => {
+                    setActiveSection(item.id)
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-semibold uppercase tracking-wider transition-all active:scale-[0.98] ${
+                    activeSection === item.id
+                      ? 'bg-white/15 text-white border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
+                      : 'bg-white/[0.04] text-white/75 hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-[18px] text-white/70">
+                      {item.id === 'projects' ? 'folder_open' : item.id === 'skills' ? 'code' : 'mail'}
+                    </span>
+                    <span>{item.label}</span>
+                  </div>
+                  <span className="material-symbols-outlined text-[16px] text-white/40">arrow_forward</span>
+                </a>
+              ))}
+            </div>
+
+            {/* Action Button: Download CV */}
+            <a
+              href={heroContent.secondaryCta.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 w-full mt-1 px-4 py-3 rounded-2xl bg-gradient-to-b from-white to-[#dce2f4] text-[#0d0f14] text-xs font-bold shadow-[inset_0_1px_1px_#ffffff,0_4px_14px_rgba(0,0,0,0.35)] active:scale-[0.98] transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px]">download</span>
+              <span>Download CV</span>
+            </a>
+          </div>
+        </>
+      )}
 
       {/* HERO CONTENT */}
       <div className="relative z-10 w-full min-h-screen flex flex-col">
