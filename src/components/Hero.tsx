@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import TwitterImage from '@/components/TwitterImage'
 import { heroContent } from '@/data/content'
 
 export default function Hero() {
@@ -21,6 +22,39 @@ export default function Hero() {
   const [introPhase, setIntroPhase] = useState<'playing' | 'fading' | 'done'>('playing')
   // Controls whether the page elements animate in
   const [pageVisible, setPageVisible] = useState(false)
+  // Page content ready state — Skip button remains hidden/disabled until page DOM is loaded
+  const [isPageLoaded, setIsPageLoaded] = useState(false)
+
+  // ── Monitor DOM page readiness for skip button ─────────────────
+  useEffect(() => {
+    const checkLoaded = () => {
+      if (document.readyState === 'complete') {
+        setIsPageLoaded(true)
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      setIsPageLoaded(true)
+    } else {
+      window.addEventListener('load', checkLoaded)
+      // Fallback timer: ensure skip button is enabled within 1.5s max if load event fires late
+      const timer = setTimeout(() => setIsPageLoaded(true), 1500)
+      return () => {
+        window.removeEventListener('load', checkLoaded)
+        clearTimeout(timer)
+      }
+    }
+  }, [])
+
+  const handleSkipVideo = () => {
+    if (introPhase !== 'playing') return
+    sessionStorage.setItem('intro_played', '1')
+    setIntroPhase('fading')
+    setTimeout(() => {
+      setIntroPhase('done')
+      setPageVisible(true)
+    }, 400)
+  }
 
   useEffect(() => {
     const sections = ['projects', 'skills', 'contact']
@@ -137,6 +171,26 @@ export default function Hero() {
             playsInline
             className="intro-video"
           />
+
+          {/* GATED SKIP BUTTON AT BOTTOM RIGHT — CANNOT APPEAR UNTIL PAGE CONTENT IS LOADED */}
+          <div className="absolute bottom-6 sm:bottom-8 right-6 sm:right-8 z-50 flex items-center pointer-events-auto">
+            {isPageLoaded ? (
+              <button
+                onClick={handleSkipVideo}
+                className="group flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.12] hover:bg-white/[0.22] active:scale-95 border border-white/[0.25] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_24px_rgba(0,0,0,0.5)] text-white text-[11px] font-semibold uppercase tracking-wider transition-all duration-300"
+              >
+                <span>Skip Intro</span>
+                <span className="material-symbols-outlined text-[14px] group-hover:translate-x-0.5 transition-transform">
+                  skip_next
+                </span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-white/50 text-[10px] font-medium tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/80 animate-ping" />
+                <span>Loading page...</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -265,7 +319,7 @@ export default function Hero() {
           <div className="hero-aurora-rim z-[5]" />
 
           {/* Hero Portrait — same frame as the intro video end for seamless crossfade */}
-          <Image
+          <TwitterImage
             src="/images/VideoCapture_20260906-183952.jpg"
             alt="Hero Portrait"
             fill

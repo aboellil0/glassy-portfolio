@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Link from 'next/link'
+import TwitterImage from '@/components/TwitterImage'
 import { projects, projectFilters, Project } from '@/data/projects'
 
 const isWhiteImage = (src?: string, lightImage?: boolean) => {
@@ -121,7 +122,7 @@ export default function Projects() {
 
               {/* Project Image - Curved pop-up container with rim light highlight */}
               <div className="relative w-full h-48 sm:h-52 rounded-[22px] overflow-hidden border border-white/[0.15] shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.4),0_10px_28px_rgba(0,0,0,0.5)] group-hover:shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.6),0_16px_36px_rgba(0,0,0,0.65)] group-hover:scale-[1.02] transition-all duration-500">
-                <Image
+                <TwitterImage
                   src={project.image}
                   alt={project.title}
                   fill
@@ -227,7 +228,7 @@ export default function Projects() {
                         className="absolute inset-0 transition-opacity duration-500"
                         style={{ opacity: i === slideIndex ? 1 : 0, pointerEvents: i === slideIndex ? 'auto' : 'none' }}
                       >
-                        <Image src={src} alt={`${selectedProject.title} screenshot ${i + 1}`} fill className="object-cover" />
+                        <TwitterImage src={src} alt={`${selectedProject.title} screenshot ${i + 1}`} fill className="object-cover" />
                       </div>
                     ))}
 
