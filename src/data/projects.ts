@@ -94,7 +94,7 @@ export const projects: Project[] = [
     freelance: true,
     image: "/images/projects/alrouba/image.png",
     images: ["/images/projects/alrouba/image.png"],
-    liveUrl: "https://www.alrouba.com",
+    liveUrl: "https://alrouba.com/",
     lightImage: true,
   },
   {
