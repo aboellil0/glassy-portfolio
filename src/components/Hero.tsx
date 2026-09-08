@@ -55,6 +55,14 @@ export default function Hero() {
 
   // ── Intro video logic ─────────────────────────────────────────
   useEffect(() => {
+    // If the video was already watched this session, skip it immediately
+    const alreadyWatched = sessionStorage.getItem('intro_played') === '1'
+    if (alreadyWatched) {
+      setIntroPhase('done')
+      setPageVisible(true)
+      return
+    }
+
     const video = videoRef.current
     if (!video) return
 
@@ -63,6 +71,8 @@ export default function Hero() {
     window.addEventListener('scroll', lockScroll)
 
     const handleEnded = () => {
+      // Remember that the intro has been played for this session
+      sessionStorage.setItem('intro_played', '1')
       // Start crossfade-out of overlay
       setIntroPhase('fading')
       // After the CSS transition completes, hide overlay & trigger page entrance
