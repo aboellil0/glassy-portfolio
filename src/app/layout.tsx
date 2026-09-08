@@ -4,6 +4,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Mohamed Aboellil | Backend Developer',
   description: 'Backend developer specializing in .NET Core and Node.js - building scalable microservices, RESTful APIs, and real-time architectures.',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
 }
 
 import CustomCursor from '@/components/CustomCursor'
