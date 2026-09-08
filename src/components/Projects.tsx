@@ -272,7 +272,7 @@ export default function Projects() {
             <div className="p-6 sm:p-8 relative z-10">
               <div className="flex items-center gap-2 mb-4">
                 {selectedProject.freelance && (
-                  <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">
+                  <span className="px-3 py-1 rounded-full bg-white/[0.18] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),0_4px_16px_rgba(0,0,0,0.5)] border border-white/[0.25] text-xs font-bold uppercase tracking-wider text-white">
                     Freelance Project
                   </span>
                 )}
