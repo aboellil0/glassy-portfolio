@@ -24,6 +24,8 @@ export default function Hero() {
   const [pageVisible, setPageVisible] = useState(false)
   // Page content ready state — Skip button remains hidden/disabled until page DOM is loaded
   const [isPageLoaded, setIsPageLoaded] = useState(false)
+  // Mobile navigation drawer toggle
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // ── Monitor DOM page readiness for skip button ─────────────────
   useEffect(() => {
@@ -290,7 +292,7 @@ export default function Hero() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <a
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-b from-white to-[#dce2f4] text-[#0d0f14] text-xs font-semibold shadow-[inset_0_1px_1px_#ffffff,0_4px_14px_rgba(0,0,0,0.35)] hover:scale-105 active:scale-95 transition-all"
               href="#contact"
@@ -298,8 +300,43 @@ export default function Hero() {
               <span>Get in Touch</span>
               <span className="material-symbols-outlined text-[14px]">arrow_outward</span>
             </a>
+
+            {/* Mobile Navigation Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden w-8 h-8 rounded-full bg-white/[0.1] hover:bg-white/[0.18] border border-white/[0.18] flex items-center justify-center text-white/80 transition-all active:scale-95 shadow-[inset_0_1px_1px_rgba(255,255,255,0.25)]"
+              aria-label="Toggle Navigation Menu"
+            >
+              <span className="material-symbols-outlined text-[18px]">
+                {mobileMenuOpen ? 'close' : 'menu'}
+              </span>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Floating Dropdown Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden pointer-events-auto w-full max-w-sm mt-3 p-3 rounded-[24px] bg-[#0c0e14]/90 backdrop-blur-3xl border border-white/[0.18] shadow-[inset_0_1.5px_1px_rgba(255,255,255,0.35),0_20px_50px_rgba(0,0,0,0.85)] flex flex-col gap-1.5 animate-modal-open">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => {
+                  setActiveSection(item.id)
+                  setMobileMenuOpen(false)
+                }}
+                className={`flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-semibold uppercase tracking-wider transition-all ${
+                  activeSection === item.id
+                    ? 'bg-white/15 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
+                    : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+                }`}
+              >
+                <span>{item.label}</span>
+                <span className="material-symbols-outlined text-[16px] text-white/40">arrow_forward</span>
+              </a>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* HERO CONTENT */}
