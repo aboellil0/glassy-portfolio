@@ -13,10 +13,6 @@ export default function Skills() {
 
         {/* Section Header */}
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/[0.15] mb-4">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-white/50">Expertise</span>
-          </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
             Technical Skills
           </h2>
