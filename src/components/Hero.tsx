@@ -388,26 +388,6 @@ export default function Hero() {
         {/* FULL WIDTH HERO IMAGE WITH ANIMATED CENTERED EFFECTS */}
         <div className="absolute inset-x-0 bottom-0 z-10 h-full overflow-hidden pointer-events-none">
 
-          {/* ── AURORA HALO SYSTEM ── rendered behind the photo (z-[5]) ── */}
-
-          {/* 1. Large outer halo — deep navy ellipse that breathes */}
-          <div className="hero-aurora-halo z-[5]" />
-
-          {/* 2. Conic god-ray sweep — slow rotating aurora fan */}
-          <div className="hero-aurora-sweep z-[5]" />
-
-          {/* 3. Left indigo orb */}
-          <div className="hero-aurora-orb-l z-[5]" />
-
-          {/* 4. Right cyan orb */}
-          <div className="hero-aurora-orb-r z-[5]" />
-
-          {/* 5. Centre rising light beam from feet */}
-          <div className="hero-aurora-beam z-[5]" />
-
-          {/* 6. Glassy white-blue rim line at waist level */}
-          <div className="hero-aurora-rim z-[5]" />
-
           {/* Hero Portrait — same frame as the intro video end for seamless crossfade */}
           <TwitterImage
             src="/images/VideoCapture_20260906-183952.jpg"
